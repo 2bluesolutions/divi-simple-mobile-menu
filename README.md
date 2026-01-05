@@ -1,4 +1,5 @@
 === Divi Simple Mobile Menu ===
+
 Contributors: 2bluesolutions
 Tags: divi, mobile menu, burger menu, navigation, responsive
 Requires at least: 5.0
