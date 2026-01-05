@@ -1,0 +1,570 @@
+/**
+ * Divi Simple Mobile Menu - Styles
+ *
+ * Uses CSS custom properties (variables) for dynamic theming.
+ * Variables are set via inline styles from PHP based on admin settings.
+ *
+ * @package Divi_Simple_Mobile_Menu
+ */
+
+/* =========================
+   CSS Variables (Defaults)
+   ========================= */
+:root {
+    --dsmm-bg-color: #cd1480;
+    --dsmm-link-color: #ffffff;
+    --dsmm-link-hover-color: #ffc107;
+    --dsmm-burger-color: #cd1480;
+    --dsmm-burger-open-color: #ffffff;
+    --dsmm-breakpoint: 981px;
+    --dsmm-header-height: 114px;
+    --dsmm-top-header-height: 0px;
+    --dsmm-menu-width: 100%;
+    --dsmm-overlay-color: #000000;
+    --dsmm-overlay-opacity: 0.5;
+    --dsmm-transition-speed: 0.3s;
+    --dsmm-z-index-overlay: 999997;
+    --dsmm-z-index-menu: 999998;
+    --dsmm-z-index-burger: 999999;
+}
+
+/* =========================
+   Burger Button
+   ========================= */
+.dsmm-burger {
+    position: fixed;
+    right: 20px;
+    top: var(--dsmm-top-header-height);
+    z-index: var(--dsmm-z-index-burger);
+    background: transparent;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    outline: none;
+    width: 50px;
+    height: var(--dsmm-header-height);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dsmm-burger:focus {
+    outline: 2px solid var(--dsmm-burger-color);
+    outline-offset: 2px;
+}
+
+/* Hamburger Style (default) */
+.dsmm-burger-bar {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background-color: var(--dsmm-burger-color);
+    margin: 4px 0;
+    border-radius: 2px;
+    transition: transform var(--dsmm-transition-speed) ease,
+                opacity var(--dsmm-transition-speed) ease,
+                background-color var(--dsmm-transition-speed) ease;
+    transform-origin: center center;
+}
+
+/* Hamburger open state - X animation */
+.dsmm-burger.dsmm-open .dsmm-burger-bar:nth-child(1) {
+    transform: translateY(11px) rotate(45deg);
+    background-color: var(--dsmm-burger-open-color);
+}
+
+.dsmm-burger.dsmm-open .dsmm-burger-bar:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.dsmm-burger.dsmm-open .dsmm-burger-bar:nth-child(3) {
+    transform: translateY(-11px) rotate(-45deg);
+    background-color: var(--dsmm-burger-open-color);
+}
+
+/* Dots Style */
+.dsmm-burger-dot {
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--dsmm-burger-color);
+    margin: 3px 0;
+    border-radius: 50%;
+    transition: transform var(--dsmm-transition-speed) ease,
+                background-color var(--dsmm-transition-speed) ease,
+                width var(--dsmm-transition-speed) ease,
+                height var(--dsmm-transition-speed) ease,
+                border-radius var(--dsmm-transition-speed) ease,
+                margin var(--dsmm-transition-speed) ease;
+}
+
+.dsmm-burger.dsmm-open .dsmm-burger-dot {
+    background-color: var(--dsmm-burger-open-color);
+    width: 28px;
+    height: 3px;
+    border-radius: 2px;
+    margin: 0;
+}
+
+.dsmm-burger.dsmm-open .dsmm-burger-dot:nth-child(1) {
+    transform: translateY(3px) rotate(45deg);
+}
+
+.dsmm-burger.dsmm-open .dsmm-burger-dot:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.dsmm-burger.dsmm-open .dsmm-burger-dot:nth-child(3) {
+    transform: translateY(-3px) rotate(-45deg);
+}
+
+/* Arrow Style */
+.dsmm-burger-arrow {
+    display: block;
+    width: 12px;
+    height: 12px;
+    border: none;
+    border-right: 3px solid var(--dsmm-burger-color);
+    border-bottom: 3px solid var(--dsmm-burger-color);
+    transform: rotate(-45deg);
+    transform-origin: center center;
+    transition: transform var(--dsmm-transition-speed) ease,
+                border-color var(--dsmm-transition-speed) ease;
+    box-sizing: border-box;
+}
+
+.dsmm-burger.dsmm-open .dsmm-burger-arrow {
+    border-right-color: var(--dsmm-burger-open-color);
+    border-bottom-color: var(--dsmm-burger-open-color);
+    transform: rotate(135deg);
+}
+
+/* =========================
+   Overlay
+   ========================= */
+.dsmm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--dsmm-overlay-color);
+    opacity: 0;
+    visibility: hidden;
+    z-index: var(--dsmm-z-index-overlay);
+    transition: opacity var(--dsmm-transition-speed) ease, 
+                visibility 0s var(--dsmm-transition-speed);
+}
+
+.dsmm-overlay.dsmm-overlay-visible {
+    opacity: var(--dsmm-overlay-opacity);
+    visibility: visible;
+    transition: opacity var(--dsmm-transition-speed) ease, 
+                visibility 0s 0s;
+}
+
+/* =========================
+   Close Button
+   ========================= */
+.dsmm-close-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 10;
+}
+
+.dsmm-close-icon {
+    display: block;
+    font-size: 36px;
+    line-height: 40px;
+    color: var(--dsmm-link-color);
+    transition: color var(--dsmm-transition-speed) ease;
+}
+
+.dsmm-close-button:hover .dsmm-close-icon,
+.dsmm-close-button:focus .dsmm-close-icon {
+    color: var(--dsmm-link-hover-color);
+}
+
+/* =========================
+   Mobile Menu Panel
+   ========================= */
+.dsmm-mobile-menu {
+    position: fixed;
+    top: 0;
+    width: var(--dsmm-menu-width);
+    max-width: 100%;
+    height: 100%;
+    background: var(--dsmm-bg-color);
+    z-index: var(--dsmm-z-index-menu);
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    visibility: hidden;
+}
+
+.dsmm-mobile-menu.dsmm-menu-open {
+    visibility: visible;
+}
+
+/* =========================
+   Position Variants
+   ========================= */
+/* Right position (default) */
+.dsmm-position-right .dsmm-mobile-menu {
+    right: -100%;
+    left: auto;
+    transition: right var(--dsmm-transition-speed) ease, visibility 0s var(--dsmm-transition-speed);
+}
+
+.dsmm-position-right .dsmm-mobile-menu.dsmm-menu-open {
+    right: 0;
+    transition: right var(--dsmm-transition-speed) ease, visibility 0s 0s;
+}
+
+/* Left position */
+.dsmm-position-left .dsmm-mobile-menu {
+    left: -100%;
+    right: auto;
+    transition: left var(--dsmm-transition-speed) ease, visibility 0s var(--dsmm-transition-speed);
+}
+
+.dsmm-position-left .dsmm-mobile-menu.dsmm-menu-open {
+    left: 0;
+    transition: left var(--dsmm-transition-speed) ease, visibility 0s 0s;
+}
+
+/* =========================
+   Animation Variants
+   ========================= */
+/* Slide animation (default - handled by position) */
+
+/* Push animation - moves page content */
+.dsmm-animation-push #page-container,
+.dsmm-animation-push .et-l {
+    transition: transform var(--dsmm-transition-speed) ease;
+}
+
+.dsmm-animation-push.dsmm-body-menu-open.dsmm-position-right #page-container,
+.dsmm-animation-push.dsmm-body-menu-open.dsmm-position-right .et-l {
+    transform: translateX(-100%);
+}
+
+.dsmm-animation-push.dsmm-body-menu-open.dsmm-position-left #page-container,
+.dsmm-animation-push.dsmm-body-menu-open.dsmm-position-left .et-l {
+    transform: translateX(100%);
+}
+
+/* Reveal animation - page slides to reveal menu underneath */
+.dsmm-animation-reveal .dsmm-mobile-menu {
+    z-index: calc(var(--dsmm-z-index-menu) - 1);
+}
+
+.dsmm-animation-reveal.dsmm-position-right .dsmm-mobile-menu {
+    right: 0;
+    left: auto;
+    transition: visibility 0s var(--dsmm-transition-speed);
+}
+
+.dsmm-animation-reveal.dsmm-position-left .dsmm-mobile-menu {
+    left: 0;
+    right: auto;
+    transition: visibility 0s var(--dsmm-transition-speed);
+}
+
+.dsmm-animation-reveal .dsmm-mobile-menu.dsmm-menu-open {
+    transition: visibility 0s 0s;
+}
+
+.dsmm-animation-reveal #page-container,
+.dsmm-animation-reveal .et-l {
+    position: relative;
+    z-index: var(--dsmm-z-index-menu);
+    background: #fff;
+    transition: transform var(--dsmm-transition-speed) ease;
+}
+
+.dsmm-animation-reveal.dsmm-body-menu-open.dsmm-position-right #page-container,
+.dsmm-animation-reveal.dsmm-body-menu-open.dsmm-position-right .et-l {
+    transform: translateX(-100%);
+}
+
+.dsmm-animation-reveal.dsmm-body-menu-open.dsmm-position-left #page-container,
+.dsmm-animation-reveal.dsmm-body-menu-open.dsmm-position-left .et-l {
+    transform: translateX(100%);
+}
+
+/* Fade animation */
+.dsmm-animation-fade .dsmm-mobile-menu {
+    opacity: 0;
+    transition: opacity var(--dsmm-transition-speed) ease, visibility 0s var(--dsmm-transition-speed);
+}
+
+.dsmm-animation-fade.dsmm-position-right .dsmm-mobile-menu {
+    right: 0;
+    transform: translateX(20px);
+    transition: opacity var(--dsmm-transition-speed) ease, 
+                transform var(--dsmm-transition-speed) ease, 
+                visibility 0s var(--dsmm-transition-speed);
+}
+
+.dsmm-animation-fade.dsmm-position-left .dsmm-mobile-menu {
+    left: 0;
+    right: auto;
+    transform: translateX(-20px);
+    transition: opacity var(--dsmm-transition-speed) ease, 
+                transform var(--dsmm-transition-speed) ease, 
+                visibility 0s var(--dsmm-transition-speed);
+}
+
+.dsmm-animation-fade .dsmm-mobile-menu.dsmm-menu-open {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity var(--dsmm-transition-speed) ease, 
+                transform var(--dsmm-transition-speed) ease, 
+                visibility 0s 0s;
+}
+
+.dsmm-menu-inner {
+    padding: 80px 30px 30px;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================
+   Menu List
+   ========================= */
+.dsmm-menu-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dsmm-menu-item {
+    margin-bottom: 0;
+}
+
+/* Links and Parent Buttons */
+.dsmm-menu-link,
+.dsmm-parent-button {
+    display: block;
+    width: 100%;
+    padding: 12px 0;
+    color: var(--dsmm-link-color);
+    font-size: 18px;
+    font-weight: 500;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    transition: color var(--dsmm-transition-speed) ease;
+}
+
+.dsmm-menu-link:hover,
+.dsmm-menu-link:focus,
+.dsmm-parent-button:hover,
+.dsmm-parent-button:focus {
+    color: var(--dsmm-link-hover-color);
+    text-decoration: none;
+    outline: none;
+}
+
+/* Parent button arrow */
+.dsmm-parent-button {
+    position: relative;
+    padding-right: 30px;
+}
+
+.dsmm-dropdown-arrow {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid var(--dsmm-link-color);
+    transform: translateY(-50%);
+    transition: transform var(--dsmm-transition-speed) ease;
+}
+
+.menu-item-has-children.dsmm-open > .dsmm-parent-button .dsmm-dropdown-arrow {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* =========================
+   Submenus
+   ========================= */
+.dsmm-sub-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out;
+}
+
+.menu-item-has-children.dsmm-open > .dsmm-sub-menu {
+    max-height: 1000px;
+}
+
+.dsmm-sub-menu .dsmm-menu-item {
+    margin-top: 5px;
+}
+
+.dsmm-sub-menu .dsmm-menu-link,
+.dsmm-sub-menu .dsmm-parent-button {
+    padding-left: 20px;
+    font-size: 16px;
+}
+
+/* Nested submenus */
+.dsmm-sub-menu .dsmm-sub-menu .dsmm-menu-link,
+.dsmm-sub-menu .dsmm-sub-menu .dsmm-parent-button {
+    padding-left: 40px;
+    font-size: 14px;
+}
+
+/* =========================
+   Contact Info
+   ========================= */
+.dsmm-contact-info {
+    margin-top: auto;
+    padding-top: 20px;
+}
+
+.dsmm-contact-info hr {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    margin: 0 0 20px;
+}
+
+.dsmm-contact-item {
+    margin-bottom: 15px;
+    color: var(--dsmm-link-color);
+}
+
+.dsmm-contact-item strong {
+    display: block;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.dsmm-contact-item a {
+    color: var(--dsmm-link-color);
+    font-size: 16px;
+    text-decoration: none;
+    transition: color var(--dsmm-transition-speed) ease;
+}
+
+.dsmm-contact-item a:hover,
+.dsmm-contact-item a:focus {
+    color: var(--dsmm-link-hover-color);
+}
+
+/* =========================
+   Body State When Menu Open
+   ========================= */
+body.dsmm-body-menu-open {
+    overflow: hidden;
+}
+
+/* =========================
+   Admin Bar Offset
+   ========================= */
+.admin-bar .dsmm-burger {
+    top: calc(var(--dsmm-top-header-height) + 32px);
+}
+
+.admin-bar .dsmm-mobile-menu {
+    top: 32px;
+    height: calc(100% - 32px);
+}
+
+@media screen and (max-width: 782px) {
+    .admin-bar .dsmm-burger {
+        top: calc(var(--dsmm-top-header-height) + 46px);
+    }
+    
+    .admin-bar .dsmm-mobile-menu {
+        top: 46px;
+        height: calc(100% - 46px);
+    }
+}
+
+/* =========================
+   Responsive Adjustments
+   ========================= */
+@media screen and (max-width: 600px) {
+    .dsmm-burger {
+        right: 15px;
+        width: 40px;
+    }
+    
+    .dsmm-burger-bar {
+        width: 24px;
+        height: 2px;
+        margin: 3px 0;
+    }
+    
+    .dsmm-burger.dsmm-open .dsmm-burger-bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    
+    .dsmm-burger.dsmm-open .dsmm-burger-bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+    
+    .dsmm-menu-inner {
+        padding: 70px 20px 20px;
+    }
+    
+    .dsmm-menu-link,
+    .dsmm-parent-button {
+        font-size: 16px;
+        padding: 10px 0;
+    }
+}
+
+/* =========================
+   Accessibility
+   ========================= */
+@media (prefers-reduced-motion: reduce) {
+    .dsmm-burger-bar,
+    .dsmm-mobile-menu,
+    .dsmm-sub-menu,
+    .dsmm-dropdown-arrow,
+    .dsmm-menu-link,
+    .dsmm-parent-button,
+    .dsmm-contact-item a {
+        transition: none;
+    }
+}
+
+/* Screen reader text */
+.dsmm-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
